@@ -1,3 +1,22 @@
+"""
+Fuel Station Simulation  with a Store resource
+
+Model description:
+ - This code simulates a fuel station where cars arrive, charge, and leave using the SimPy library.
+ - The station has a limited capacity, meaning only a set number of cars can charge at once.
+ - Cars arrive at the station at fixed intervals and spend a certain amount of time charging before leaving.
+
+Class and function description:
+ - Fuel_station Class
+    __init__(self, env, charging_duration, IAT, station): Initializes the fuel station with the simulation environment, charging duration, inter-arrival time (IAT), and the station's capacity.
+    run(self): Manages the arrival of cars at intervals specified by IAT and starts their charging process.
+    car(self, car_index): Simulates each car's arrival, charging, and departure from the station.
+
+Execution procedure:
+    The simulation environment and station are initialized with a specific capacity.
+    A Fuel_station object is created, and the simulation runs to completion, showing the sequence of car arrivals, charging, and departures.
+"""
+
 import simpy
 
 class Fuel_station():

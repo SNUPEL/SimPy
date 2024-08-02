@@ -1,22 +1,24 @@
 """
-Gas Station Refueling example
+Gas Station Refueling Simulation
 
-Covers:
+Model description:
+ - This code simulates a gas station where cars arrive to refuel, using the SimPy library.
+ - Cars arrive at random intervals and request fuel from the gas station's pumps.
+ - If the fuel level at the station falls below a certain threshold, a tank truck is called to replenish the fuel supply.
+ - The simulation tracks car arrivals, refueling times, and the behavior of the fuel supply system.
 
-- Resources: Resource
-- Resources: Container
-- Waiting for other processes
+Function description:
+ - car(name, env, gas_station, fuel_pump): Simulates a car arriving at the gas station, refueling, and leaving.
+ - gas_station_control(env, fuel_pump): Periodically checks the fuel level and calls a tank truck if needed.
+ - tank_truck(env, fuel_pump): Refuels the gas station after a delay.
+ - car_generator(env, gas_station, fuel_pump): Continuously generates cars arriving at the station.
 
-Scenario:
-  A gas station has a limited number of gas pumps that share a common
-  fuel reservoir. Cars randomly arrive at the gas station, request one
-  of the fuel pumps and start refueling from that reservoir.
-
-  A gas station control process observes the gas station's fuel level
-  and calls a tank truck for refueling if the station's level drops
-  below a threshold.
-
+Execution procedure
+    The simulation environment is initialized with a gas station and fuel pump container.
+    Control processes for the gas station and car generation are started.
+    The simulation runs for 1000 seconds, during which the system's behavior is observed.
 """
+
 import itertools
 import random
 
@@ -77,9 +79,9 @@ def tank_truck(env, fuel_pump):
     """Arrives at the gas station after a certain delay and refuels it."""
     yield env.timeout(TANK_TRUCK_TIME)
     print('Tank truck arriving at time %d' % env.now)
-    ammount = fuel_pump.capacity - fuel_pump.level
-    print('Tank truck refuelling %.1f liters.' % ammount)
-    yield fuel_pump.put(ammount)
+    amount = fuel_pump.capacity - fuel_pump.level
+    print('Tank truck refuelling %.1f liters.' % amount)
+    yield fuel_pump.put(amount)
 
 
 def car_generator(env, gas_station, fuel_pump):

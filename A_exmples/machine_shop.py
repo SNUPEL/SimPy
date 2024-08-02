@@ -1,20 +1,27 @@
 """
-Machine shop example
+Machine Shop Simulation
 
-Covers:
+Model description:
+ - This code simulates a machine shop where multiple machines produce parts, but occasionally break down and require repairs.
+ - Each machine operates continuously, making parts until a breakdown occurs, which interrupts production until a repairman fixes the machine.
+ - The repairman is responsible for fixing the machines, prioritizing repairs over other lower-priority tasks.
 
-- Interrupts
-- Resources: PreemptiveResource
+Class and function description:
+ - Machine Class
+    __init__(self, env, name, repairman): Initializes a machine with a name and starts its working and break processes.
+    working(self, repairman): Simulates the machine producing parts and handling breakdowns.
+    break_machine(self): Randomly causes the machine to break, interrupting the working process.
 
-Scenario:
-  A workshop has *n* identical machines. A stream of jobs (enough to
-  keep the machines busy) arrives. Each machine breaks down
-  periodically. Repairs are carried out by one repairman. The repairman
-  has other, less important tasks to perform, too. Broken machines
-  preempt theses tasks. The repairman continues them when he is done
-  with the machine repair. The workshop works continuously.
+ - time_per_part(): Returns a normally distributed processing time for each part.
+ - time_to_failure(): Returns the time until the next machine failure, based on an exponential distribution.
+ - other_jobs(env, repairman): Represents other low-priority tasks the repairman performs when not repairing machines.
 
+Execution procedure
+    The simulation environment is initialized, and machines are set up with a single repairman.
+    The simulation runs for 4 weeks, with each machine's output and breakdowns tracked.
+    Results are printed at the end showing how many parts each machine produced.
 """
+
 import random
 
 import simpy

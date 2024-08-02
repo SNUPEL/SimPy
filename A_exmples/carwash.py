@@ -1,20 +1,25 @@
 """
-Carwash example.
+Carwash Simulation
 
-Covers:
+Model description:
+ - This code simulates the operation of a carwash with a limited number of machines using the SimPy library.
+ - Cars arrive at random intervals, request a machine, get washed, and then leave.
+ - The carwash has a fixed number of machines, and each washing process takes a variable amount of time.
 
-- Waiting for other processes
-- Resources: Resource
+Function description:
+ - Carwash Class
+    __init__(self, env, num_machines, washtime): Initializes the carwash with a specific number of machines and wash time.
+    wash(self, car): Simulates the car washing process with variable duration.
 
-Scenario:
-  A carwash has a limited number of washing machines and defines
-  a washing processes that takes some (random) time.
+ - car(env, name, cw): Represents a car process that arrives at the carwash, waits for an available machine, gets washed, and then leaves.
 
-  Car processes arrive at the carwash at a random time. If one washing
-  machine is available, they start the washing process and wait for it
-  to finish. If not, they wait until they an use one.
+ - setup(env, num_machines, washtime, t_inter): Initializes the carwash environment, generates initial cars, and continuously generates more cars at random intervals.
 
+Execution procedure
+    The simulation environment is initialized, and the setup process is started.
+    The simulation runs for a total of 200 minutes.
 """
+
 import random
 
 import simpy

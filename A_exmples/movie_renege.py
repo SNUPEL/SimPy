@@ -85,7 +85,7 @@ env = simpy.Environment()
 
 # Create movie theater
 counter = simpy.Resource(env, capacity=1)
-movies = ['Python Unchained', 'Kill Process', 'Pulp Implementation']
+movies = ['Avatar', 'Top Gun', 'Avengers']
 available = {movie: TICKETS for movie in movies}
 sold_out = {movie: env.event() for movie in movies}
 when_sold_out = {movie: None for movie in movies}

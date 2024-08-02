@@ -16,7 +16,7 @@ import random
 import simpy
 
 
-RANDOM_SEED = 42
+RANDOM_SEED = 30
 NEW_CUSTOMERS = 500  # Total number of customers
 INTERVAL_CUSTOMERS = 3.0  # Generate new customers roughly every x min
 MIN_PATIENCE = 1  # Min. customer patience

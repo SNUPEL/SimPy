@@ -1,18 +1,26 @@
 """
-Movie renege example
+Movie Ticket Purchasing Simulation
 
-Covers:
+Model description:
+ - This code simulates the process of moviegoers trying to purchase tickets at a theater using the SimPy library.
+ - The simulation models a movie theater with a limited number of tickets for several movies.
+ - Moviegoers arrive randomly and attempt to purchase tickets. If tickets are sold out, they leave the queue.
+ - The simulation also tracks when movies sell out and the number of customers who leave the queue when unable to purchase tickets.
 
-- Resources: Resource
-- Condition events
-- Shared events
+Function description:
+ - moviegoer(env, movie, num_tickets, theater)
+    Represents the process of a moviegoer attempting to buy tickets. The process handles cases where tickets are sold out or not enough tickets are available.
+ - customer_arrivals(env, theater)
+    Simulates the arrival of new moviegoers at the theater at random intervals.
+ - Theater (namedtuple)
+    A data structure that holds the state of the theater, including the ticket counter, available tickets, sold-out events, and customer statistics.
 
-Scenario:
-  A movie theatre has one ticket counter selling tickets for three
-  movies (next show only). When a movie is sold out, all people waiting
-  to buy tickets for that movie renege (leave queue).
-
+Execution procedure
+    The simulation environment is initialized, and the theater is set up with a limited number of tickets for each movie.
+    The simulation runs for 120 minutes, generating customers and processing their ticket purchase attempts.
+    After the simulation, results are printed showing when each movie sold out and how many customers left the queue without buying tickets.
 """
+
 import collections
 import random
 
@@ -38,7 +46,7 @@ def moviegoer(env, movie, num_tickets, theater):
 
     """
     with theater.counter.request() as my_turn:
-        # Wait until its our turn or until the movie is sold out
+        # Wait until our turn or until the movie is sold out
         result = yield my_turn | theater.sold_out[movie]
 
         # Check if it's our turn or if movie is sold out

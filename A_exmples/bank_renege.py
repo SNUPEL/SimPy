@@ -1,16 +1,23 @@
 """
-Bank renege example
+Bank Customer Reneging Simulation
 
-Covers:
+Model description:
+ - This code simulates a bank scenario where customers arrive, wait for service, and either get served or leave (renege) due to impatience.
+ - Customers are generated at random intervals and request service from a bank counter with limited capacity.
+ - If a customer waits longer than their patience allows, they leave without being served; otherwise, they are served and then leave.
+ - The simulation runs for a specified duration, capturing customer behavior under different conditions.
 
-- Resources: Resource
-- Condition events
+Class and function description:
+ - source(env, number, interval, counter)
+    Generates customers at random intervals and starts their service process.
 
-Scenario:
-  A counter with a random service time and customers who renege. Based on the
-  program bank08.py from TheBank tutorial of SimPy 2. (KGM)
+ - customer(env, name, counter, time_in_bank)
+    Simulates a customer arriving, waiting for service, getting served, or reneging if they wait too long.
 
+Main Simulation Execution
+     Initializes the simulation environment, sets up the bank counter resource, generates customers, and runs the simulation for 200 time units.
 """
+
 import random
 
 import simpy

@@ -1,4 +1,4 @@
-from SimComponent.SimComponents import *
+from C_SimComponent.SimComponents import *
 import simpy
 import numpy as np
 import random
@@ -27,7 +27,6 @@ source = Source(env, 'Source_jobtype1', model, monitor, jobtype=jobtype1, IAT='e
 env.run(until=100000)
 
 monitor.save_event_tracer()
-
 
 print('#' * 80)
 print("Results of MM3 simulation")

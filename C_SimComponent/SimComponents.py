@@ -9,20 +9,25 @@ if not os.path.exists(save_path):
 
 #region Operation
 class Operation(object):
-    def __init__(self, name, time, proc_list):
+    def __init__(self, name, service_time, proc_list):
         # 해당 operation의 이름
         self.id = name
         # 해당 operation의 시간
-        self.time = time
+        self.service_time = service_time
         # 해당 operation이 가능한 process의 list
         self.proc_list = proc_list
 
     # Operation의 시간을 호출하기 위한 함수
-    def get_time(self):
-        if type(self.time) is str:
-            return eval('np.random.'+self.time)
+    def get_time(self, proc):
+        if type(self.service_time) is dict:
+            if type(self.service_time[proc]) is str:
+                return eval('np.random.'+ self.service_time[proc])
+            else:
+                return self.service_time[proc]
+        elif type(self.service_time) is str:
+            return eval('np.random.' + self.service_time)
         else:
-            return self.time
+            return self.service_time
 #endregion
 
 
@@ -148,7 +153,7 @@ class Process(object):
             self.in_part.put_queue.insert(0, put_None)
         part = yield self.in_part.get(lambda x: x is not None)
         operation = part.requirements[part.step]
-        proc_time = operation.get_time()
+        proc_time = operation.get_time(self.name)
 
         # Process start and finish
         self.monitor.record(self.env.now, self.name, None, part_id=part.id, event=operation.id+" Start")
@@ -169,7 +174,7 @@ class Process(object):
             self.in_part.put_queue.insert(0, put_None)
         part = yield self.in_part.get(lambda x: x is not None)
         operation = part.requirements[part.step]
-        proc_time = operation.get_time()
+        proc_time = operation.get_time(self.name)
 
         # Process start and finish
         self.monitor.record(self.env.now, self.name, None, part_id=part.id, event=operation.id+" Start")

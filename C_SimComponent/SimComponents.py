@@ -192,11 +192,13 @@ class Process(object):
 
 #region Routing
 class Routing(object):
-    def __init__(self, env, model, monitor):
+    def __init__(self, env, name, model, monitor, mode='least_util'):
         self.env = env
-        self.name = 'Routing'
+        self.name = name
         self.model = model
         self.monitor = monitor
+
+        self.mode = mode
 
         self.queue = simpy.Store(env)
 
@@ -209,7 +211,14 @@ class Routing(object):
             part.step += 1
             if part.step < len(part.requirements):
                 # to routing function
-                self.env.process(self.least_util(part))
+                if self.mode == 'least_util':
+                    self.env.process(self.least_util(part))
+                elif self.mode == 'SPT':
+                    self.env.process(self.SPT(part))
+                elif self.mode == 'LPT':
+                    self.env.process(self.LPT(part))
+                else:
+                    raise TypeError("Mode {0} is not supported.".format(self.mode))
             else:
                 # to Sink
                 self.env.process(self.put_sink(part))
@@ -221,6 +230,30 @@ class Routing(object):
         proc_list = [self.model[proc] for proc in operation.proc_list]
         util_list = [proc.util_time / proc.capa for proc in proc_list]
         idx = util_list.index(min(util_list))
+        next_proc = proc_list[idx]
+
+        # To next process
+        yield self.env.process(self.to_next_proc(part, next_proc))
+
+    # Routing(SPT)
+    def SPT(self, part):
+        # Select shortest processing time proc
+        operation = part.requirements[part.step]
+        proc_list = [self.model[proc] for proc in operation.proc_list]
+        PT_list = [operation.get_time(proc.name) for proc in proc_list]
+        idx = PT_list.index(min(PT_list))
+        next_proc = proc_list[idx]
+
+        # To next process
+        yield self.env.process(self.to_next_proc(part, next_proc))
+
+    # Routing(SPT)
+    def LPT(self, part):
+        # Select shortest processing time proc
+        operation = part.requirements[part.step]
+        proc_list = [self.model[proc] for proc in operation.proc_list]
+        PT_list = [operation.get_time(proc.name) for proc in proc_list]
+        idx = PT_list.index(max(PT_list))
         next_proc = proc_list[idx]
 
         # To next process

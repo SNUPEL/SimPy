@@ -20,7 +20,7 @@ model['M2'] = Process(env, 'M2', model, monitor, capacity=2, in_buffer=2, out_bu
 model['M3'] = Process(env, 'M3', model, monitor, capacity=2, in_buffer=2, out_buffer=2)
 model['M4'] = Process(env, 'M4', model, monitor, capacity=2, in_buffer=2, out_buffer=2)
 model['M5'] = Process(env, 'M5', model, monitor, capacity=2, in_buffer=2, out_buffer=2)
-model['Routing'] = Routing(env, model, monitor)
+model['Routing'] = Routing(env, 'Routing', model, monitor, mode='LPT')
 model['Sink'] = Sink(env, monitor)
 
 jobtype1 = [operation['Ops1-1'], operation['Ops1-2'], operation['Ops1-3']]

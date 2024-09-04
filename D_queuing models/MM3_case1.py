@@ -16,7 +16,7 @@ operation['Ops1-1'] = Operation('Ops1-1', 'exponential(50)', ['M1'])
 
 model = dict()
 model['M1'] = Process(env, 'M1', model, monitor, capacity=3, in_buffer=0, out_buffer=0)
-model['Routing'] = Routing(env, model, monitor)
+model['Routing'] = Routing(env, 'Routing', model, monitor, mode='SPT')
 model['Sink'] = Sink(env, monitor)
 
 jobtype1 = [operation['Ops1-1']]
